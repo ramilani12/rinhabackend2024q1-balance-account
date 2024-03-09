@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -104,8 +103,6 @@ public class ClienteController {
 			var limite = cliente.getLimite();
 			var saldo = cliente.getSaldo();
 
-			var saldoNovo = saldo - valor;
-
 			if (valor <= saldo + limite) {
 				saldo -= valor;
 
@@ -115,7 +112,7 @@ public class ClienteController {
 
 			}
 
-			return ResponseEntity.ok(criarTransacao(cliente, dto, saldoNovo));
+			return ResponseEntity.ok(criarTransacao(cliente, dto, saldo));
 
 		}
 

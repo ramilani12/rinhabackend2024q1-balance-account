@@ -174,8 +174,10 @@ public class ClienteController {
 		transacao.setDescricao(dto.descricao());
 		transacao.setRealizadaEm(LocalDateTime.now());
 
-		transacaoRepository.save(transacao);
+		//transacaoRepository.save(transacao);
 
+		cliente.addTransacao(transacao);
+		
 		cliente.setSaldo(novoSaldo);
 
 		clienteRepository.save(cliente);

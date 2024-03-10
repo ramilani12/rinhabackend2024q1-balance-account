@@ -17,8 +17,8 @@ services:
       - SPRING_DATASOURCE_PASSWORD=1234
       - SPRING_JPA_HIBERNATE_DDL_AUTO=none
       - SPRING.DATASOURCE.HIKARI.CONNECTION-TEST-QUERY=SELECT 1
-      - SPRING.DATASOURCE.HIKARI.MAXIMUM-POOL-SIZE=50
-      - SPRING.DATASOURCE.HIKARI.MINIMUM-IDLE=10
+      - SPRING.DATASOURCE.HIKARI.MAXIMUM-POOL-SIZE=10
+      - SPRING.DATASOURCE.HIKARI.MINIMUM-IDLE=5
     networks:
       - network-rinhabackend
     ports:
@@ -26,8 +26,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.525'
-          memory: '200MB'
+          cpus: '0.4'
+          memory: '190MB'
   api02:
     <<: *api
     hostname: api02
@@ -50,8 +50,8 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.05'
-          memory: '30MB'
+          cpus: '0.1'
+          memory: '10MB'
     networks:
       - network-rinhabackend
 
@@ -68,15 +68,15 @@ services:
       - '5438:5432'
     volumes:
       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - ./sql/postgres.conf:/etc/postgres/postgres.conf
+      - ./sql/postgres.conf:/docker-entrypoint-initdb.d/postgres.conf
     networks:
       - network-rinhabackend
     deploy:
       resources:
         limits:
-          cpus: '0.4'
-          memory: '120MB'
-    command: postgres -c checkpoint_timeout=600 -c max_wal_size=2096 -c synchronous_commit=0 -c full_page_writes=0 -c fsync=off -c check_function_bodies=false
+          cpus: '0.5'
+          memory: '160MB'
+    command: postgres -c config_file=/docker-entrypoint-initdb.d/postgres.conf 
     healthcheck:
       test: [ 'CMD', 'pg_isready' ]
       interval: 10s

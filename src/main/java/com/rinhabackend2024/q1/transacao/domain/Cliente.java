@@ -1,10 +1,10 @@
 package com.rinhabackend2024.q1.transacao.domain;
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,37 +15,36 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.extern.slf4j.Slf4j;
 
-
 @Slf4j
 @Entity
 @Table(name = "cliente")
-public class Cliente implements Serializable{
-    private static final long serialVersionUID = 4091816356079930632L;
+public class Cliente implements Serializable {
+	private static final long serialVersionUID = 4091816356079930632L;
 
 	@Id
-	@SequenceGenerator(name="cliente_seq",sequenceName="cliente_seq" , allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE , generator = "cliente_seq")
-    @Column(name = "id", nullable = false)
-    private Long id;
+	@SequenceGenerator(name = "cliente_seq", sequenceName = "cliente_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cliente_seq")
+	@Column(name = "id", nullable = false)
+	private Long id;
 
-    @Column(name = "limite", nullable = false)
-    private Long limite;
+	@Column(name = "limite", nullable = false)
+	private Long limite;
 
-    @Column(name = "saldo")
-    private Long saldo;
-    
-    public Cliente() {
-    	
-    }
+	@Column(name = "saldo")
+	private Long saldo;
 
-    public Cliente(Long id, Long limite, Long saldo) {
-        this.id = id;
-        this.limite = limite;
-        this.saldo = saldo;
-    }
+	public Cliente() {
 
-    @OneToMany(mappedBy = "cliente", orphanRemoval = true)
-    private List<Transacao> transacoes = new ArrayList<>();
+	}
+
+	public Cliente(Long id, Long limite, Long saldo) {
+		this.id = id;
+		this.limite = limite;
+		this.saldo = saldo;
+	}
+
+	@OneToMany(mappedBy = "cliente", orphanRemoval = true, cascade = CascadeType.ALL)
+	private List<Transacao> transacoes = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -70,9 +69,9 @@ public class Cliente implements Serializable{
 	public void setSaldo(Long saldo) {
 		this.saldo = saldo;
 	}
-    
-    
-    
-    
+
+	public void addTransacao(final Transacao transacao) {
+		this.transacoes.add(transacao);
+	}
 
 }

@@ -45,6 +45,8 @@ ALTER TABLE transacao ADD CONSTRAINT transacao_pkey PRIMARY KEY (id);
 
 ALTER TABLE transacao ADD CONSTRAINT fk_cliente FOREIGN KEY (id_cliente) REFERENCES cliente(id);
 
+CREATE INDEX CONCURRENTLY ON transacao (id_cliente, realizada_em); 
+
 
 INSERT INTO public.cliente
 (id, limite, saldo ,version)

@@ -3,7 +3,7 @@ name: 'rinha-de-backend-2024'
 
 services:
   api01: &api
-    image: 'transacao:latest'
+    image: 'ramilani12/transacao:latest'
     hostname: api01
     build:
       context: .
